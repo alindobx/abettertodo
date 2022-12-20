@@ -11,10 +11,41 @@
 </head>
 <body>
     <div class="container">
-        Test
-        <header></header>
-        <main></main>
-        <footer></footer>
+        <header>
+            <nav role="navigation">
+                <h1>TO DO</h1>
+                <img src="img/icon-moon.svg" alt="moon">
+            </nav>
+        </header>
+        <main role="main">
+            <section class="upper">
+                <div class="circle"></div>
+                <input id="todo-value" class="todo-content" type="text" placeholder="Create a new todo..." name="todo">
+                <img class="plus-symbol" src="img/icon-cross.svg" alt="cross">
+            </section>
+            <section class="lower">
+                <div class="module-container">
+
+                </div>
+                <div class="lower-footer">
+                    <div class="sub-1">
+                        <sup class="numbOfItems">0</sup>
+                        <sup>items left</sup>
+                    </div>
+                    <div class="sub-2">
+                        <sup class="filter-all">All</sup>
+                        <sup class="filter-active">Active</sup>
+                        <sup class="filter-completed">Completed</sup>
+                    </div>
+                    <div class="sub-3">
+                        <sup class="clear-completed">Clear Completed</sup>
+                    </div>
+                </div>
+
+            </section>
+        </main>
+        <footer>Drag and drop to reorder list</footer>
     </div>
 </body>
+<script src="js/index.js" type="application/javascript"></script>
 </html>
