@@ -70,7 +70,7 @@ label img {
     right: 7px;
 }
 
-.strike {
+.complete {
 text-decoration: line-through;
 }
 
@@ -115,7 +115,7 @@ input {
 }
 
 .lower {
-    height:27.4375rem;
+    min-height:12.4375rem;
 }
 
 header h1 {
