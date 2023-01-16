@@ -1,50 +1,48 @@
 <!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>To Do List</title>
-    <link href="https://fonts.google.com/specimen/Josefin+Sans">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js" integrity="sha512-Eezs+g9Lq4TCCq0wae01s9PuNWzHYoCMkE97e2qdkYthpI0pzC3UGB03lgEHn2XM85hDOUF6qgqqszs+iXU4UA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>    <link rel="stylesheet" href="css/styles.css">
-</head>
-<body>
-    <div class="container">
-        <header>
-            <nav role="navigation">
-                <h1>TO DO</h1>
-                <img src="img/icon-moon.svg" alt="moon">
-            </nav>
-        </header>
-        <main role="main">
-            <section class="upper">
-                <div class="circle"></div>
-                <input id="todo-value" class="todo-content" type="text" placeholder="Create a new todo..." name="todo">
-            </section>
-            <section class="lower">
-                <div class="module-container">
-
-                </div>
-                <div class="lower-footer">
-                    <div class="sub-1">
-                        <sup class="numbOfItems">0</sup>
-                        <sup>items left</sup>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport"
+              content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>To Do List</title>
+        <link href="https://fonts.google.com/specimen/Josefin+Sans">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js" integrity="sha512-Eezs+g9Lq4TCCq0wae01s9PuNWzHYoCMkE97e2qdkYthpI0pzC3UGB03lgEHn2XM85hDOUF6qgqqszs+iXU4UA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <link id="styles" rel="stylesheet" href="css/styles.css">
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <nav role="navigation">
+                    <h1>TO DO</h1>
+                    <img id="moon" src="img/icon-moon.svg" alt="moon">
+                </nav>
+            </header>
+            <main role="main">
+                <header class="upper">
+                    <div class="circle"></div>
+                    <input id="todo-value" class="todo-content" type="text" placeholder="Create a new todo..." name="todo">
+                </header>
+                <section class="lower">
+                    <div class="module-container"></div>
+                    <div class="lower-footer">
+                        <div class="sub-1">
+                            <sup class="numbOfItems">0</sup>
+                            <sup>items left</sup>
+                        </div>
+                        <div class="sub-2">
+                            <sup class="filter-all">All</sup>
+                            <sup class="filter-active">Active</sup>
+                            <sup class="filter-completed">Completed</sup>
+                        </div>
+                        <div class="sub-3">
+                            <sup class="clear-completed">Clear Completed</sup>
+                        </div>
                     </div>
-                    <div class="sub-2">
-                        <sup class="filter-all">All</sup>
-                        <sup class="filter-active">Active</sup>
-                        <sup class="filter-completed">Completed</sup>
-                    </div>
-                    <div class="sub-3">
-                        <sup class="clear-completed">Clear Completed</sup>
-                    </div>
-                </div>
-
-            </section>
-        </main>
-        <footer>Drag and drop to reorder list</footer>
-    </div>
-</body>
-<script src="js/index.js" type="application/javascript"></script>
+                </section>
+            </main>
+            <footer>Drag and drop to reorder list</footer>
+        </div>
+    </body>
+    <script src="js/index.js" type="application/javascript"></script>
 </html>

@@ -1,71 +1,63 @@
-//get connections to the DOM
+//get routes to the DOM
 const inputValue = document.getElementById('todo-value');
-const createToDoBtn = document.querySelector('.plus-symbol');
 const getLowerDiv = document.querySelector('.module-container');
 const countDiv = document.querySelector('.numbOfItems');
 const clearCompletedBtn = document.querySelector('.clear-completed');
 const activeFilterBtn = document.querySelector(".filter-active")
 const completedFilterBtn = document.querySelector('.filter-completed');
-const notStrikeClass = document.querySelectorAll("label:not(.complete)");
 const getAllBtn = document.querySelector('.filter-all');
+const getMoonIcon = document.getElementById("moon");
+const getStyles = document.getElementById('styles');
+getMoonIcon.addEventListener("click",toggleIcon);
 
+// Drag and Drop animation
 new Sortable(getLowerDiv, {
     animation: 350
 });
 
-function retrieveCompleteFromLocalStorage() {
-    //get from active Storage
-    const retrieveCompleteToDos = window.localStorage.getItem("Complete");
-    //parse data from object to string
-    const parseToDos = JSON.parse(retrieveCompleteToDos);
+//Toggle styles depending on night or day click on moon and sun icon
+function toggleIcon(){
+    const moon = "img/icon-moon.svg";
+    const sun = "img/icon-sun.svg";
+    const sunStyles ="css/sun-styles.css";
+    const moonStyles = "css/styles.css";
+    if (getMoonIcon.alt === "moon") {
+        getMoonIcon.src = sun;
+        getMoonIcon.alt = "sun";
+        getStyles.href = sunStyles;
+    }else {
+        getMoonIcon.src = moon;
+        getMoonIcon.alt ="moon";
+        getStyles.href = moonStyles;
+    }
+}
 
-    //change string to html
-    const completeParsers = new DOMParser();
-    const doc = completeParsers.parseFromString(parseToDos, 'text/html');
-
-    // gather all active-list to render on DOM
-    const gatherAllCompleteToDos = doc.querySelectorAll('.complete');
-    gatherAllCompleteToDos.forEach(item => {
+const gatherAllFunc = (queryAll) => {
+    queryAll.forEach(item => {
         const deleteBtn = item.querySelector('.deleteBtn');
         deleteBtn.addEventListener('click',(e)=> {
             getLowerDiv.removeChild(e.target.parentElement);
             decrementCounter()
         })
-
-        // reintroduce or append active items to DOM or list
+        // reintroduce or append items to DOM or list
         getLowerDiv.appendChild(item);
         localStorage.clear();
         incrementCounter()
     })
 }
 
-function retrieveActiveFromLocalStorage() {
-    //get from active Storage
-    const retrieveActiveToDos = window.localStorage.getItem("Active");
+function retrieveFromLocalStorage(key,selectors) {
+    //get items from Storage
+    const retrieveActiveToDos = window.localStorage.getItem(key);
     //parse data from object to string
     const parseToDos = JSON.parse(retrieveActiveToDos);
-
     //change string to html
     const activeParsers = new DOMParser();
-    const doc = activeParsers.parseFromString(parseToDos, 'text/html');
-
-    // gather all active-list to render on DOM
-    const gatherAllActiveToDos = doc.querySelectorAll('.active');
-    console.log(gatherAllActiveToDos)
-    gatherAllActiveToDos.forEach(item => {
-        const deleteBtn = item.querySelector('.deleteBtn');
-        deleteBtn.addEventListener('click',(e)=> {
-            getLowerDiv.removeChild(e.target.parentElement);
-            decrementCounter()
-        })
-
-        // reintroduce or append active items to DOM or list
-        getLowerDiv.appendChild(item);
-        localStorage.clear();
-        incrementCounter()
-    })
+    const parsedHTML = activeParsers.parseFromString(parseToDos, 'text/html');
+    // gather all list to render on DOM
+    const gatherAllActiveToDos = parsedHTML.querySelectorAll(selectors);
+    gatherAllFunc(gatherAllActiveToDos)
 }
-
 
 //filters
 //Number of Items
@@ -76,7 +68,6 @@ const todoCountState = {
 const counter = (count) => {
     return count
 };
-
 //function to render Counter
 function renderCount() {
     countDiv.innerHTML = counter( todoCountState.count )
@@ -86,7 +77,6 @@ const incrementCounter = () => {
     todoCountState.count = todoCountState.count + 1;
     renderCount();
 }
-
 const decrementCounter = () => {
     todoCountState.count = todoCountState.count - 1;
     renderCount();
@@ -96,6 +86,7 @@ renderCount();
 //Event Listeners=========================================================
 //=========================================================================
 inputValue.addEventListener('keypress',(e)=>{
+    //create todoo Modules
     // Capture the value in the input field
     if (e.keyCode === 13) {
         e.preventDefault();
@@ -141,21 +132,21 @@ inputValue.addEventListener('keypress',(e)=>{
 // add a checkmark to checkbox
 const checkBoxEvent = () => {
     const getLabel = document.querySelectorAll('.checkbox-type');
-        getLabel.forEach(item =>{
-            item.addEventListener('change',(e)=>{
-                const team = item.closest('.input-content');
-                const addActive = document.querySelector('.input-content')
-                if(e.target.checked){
-                    team.classList.add('complete');
-                    team.classList.remove('active');
-                    addActive.classList.add('active-list');
-                }else {
-                    team.classList.add('active');
-                    team.classList.remove('complete');
-                }
-            })
+    getLabel.forEach(item =>{
+        item.addEventListener('change',(e)=>{
+            const team = item.closest('.input-content');
+            const addActive = document.querySelector('.input-content')
+            if(e.target.checked){
+                team.classList.add('complete');
+                team.classList.remove('active');
+                addActive.classList.add('active-list');
+            }else {
+                team.classList.add('active');
+                team.classList.remove('complete');
+            }
         })
-    }
+    })
+}
 checkBoxEvent();
 
 //=============================================================
@@ -163,21 +154,15 @@ checkBoxEvent();
 //=============================================================
 //clear completed Filter
 clearCompletedBtn.addEventListener('click',()=>{
-
     //gather all completed todos
     let gatherCompletedTodos = document.querySelectorAll('.complete');
-
     // Remove all the Completed tododos and reduce count -1
     gatherCompletedTodos.forEach(element =>{
         element.remove();
         decrementCounter()
     })
 })
-
-//=============================================================
-//Filter Buttons Code
-//=============================================================
-//Display Active Todos - filter-active
+//Active Filter
 activeFilterBtn.addEventListener('click',()=>{
 
     //check and see if there are any "active" elements in localStorage if true bring
@@ -188,18 +173,11 @@ activeFilterBtn.addEventListener('click',()=>{
         console.log('no active todos in storage');
     }else{
         console.log('active todos in storage');
-        retrieveActiveFromLocalStorage()
+        retrieveFromLocalStorage("Active",'.active')
     }
-
-    //Function to retrieve ToDos from localStorage
-
-    //======================================================================
     //Remove Compete todoos from stage
     let gatherCompletedTodos = document.querySelectorAll('.complete');
-
-    //CompleteList Array and collection of completed tododos
     const CompleteList = [];
-
     // gathers all the Completed toddoo and sends pushes them into the Complete array
     gatherCompletedTodos.forEach(item => {
         item.remove()
@@ -225,7 +203,7 @@ completedFilterBtn.addEventListener('click',()=>{
         console.log('no complete todos in storage');
     }else{
         console.log('active todos in storage');
-        retrieveCompleteFromLocalStorage()
+        retrieveFromLocalStorage("Complete",'.complete')
     }
 
     // //Function to retrieve ToDos from localStorage
@@ -251,16 +229,11 @@ completedFilterBtn.addEventListener('click',()=>{
         decrementCounter()
     })
 })
-//============================================================================
-//Filter All - present all todooos                                           =
-//============================================================================
+
+//Filter All - present all todooos
+
 getAllBtn.addEventListener("click", ()=>{
     //get both active and complete tododos in localStorage and bring to Stage
-    retrieveActiveFromLocalStorage()
-    retrieveCompleteFromLocalStorage()
+    retrieveFromLocalStorage("Active",'.active')
+    retrieveFromLocalStorage("Complete",'.complete')
 })
-
-
-
-
-
